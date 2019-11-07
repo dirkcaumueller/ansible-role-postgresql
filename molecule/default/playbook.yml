@@ -12,9 +12,9 @@
   pre_tasks:
     - name: Set custom variables for old CentOS 6 PostgreSQL install
       set_fact:
-        postgresql_hba_entries: []
-        postgresql_global_config_options:
-          - option: unix_socket_directory
+        pg_hba_entries: []
+        pg_postgresql_conf_params:
+          - name: unix_socket_directory
             value: '{{ pg_unix_socket_directories[0] }}'
       when:
         - ansible_os_family == 'RedHat'
