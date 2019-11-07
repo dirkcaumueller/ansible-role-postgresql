@@ -5,7 +5,7 @@
     password: "{{ pg_user_password | password_hash('sha512') }}"
 
 - name: Check if .pgsql_profile file exists
-  stat: 
+  stat:
     path: "{{ pg_user_home }}/.pgsql_profile"
   register: pgsql_profile_stat
 
