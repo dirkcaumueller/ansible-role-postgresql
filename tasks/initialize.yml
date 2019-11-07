@@ -16,7 +16,7 @@
     owner: "{{ pg_user }}"
     group: "{{ pg_group }}"
     mode: 0700
-  when: pgsql_profile_stat.stat.exists
+  when: not pgsql_profile_stat.stat.exists
 
 - name: Add PostgreSQL environment variables
   lineinfile:
