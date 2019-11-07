@@ -25,7 +25,6 @@
     line: "export {{ item }}"
     state: present
   with_items: "{{ pg_env_vars }}"
-  no_log: true
 
 - name: Ensure PostgreSQL data directory exists
   file:
