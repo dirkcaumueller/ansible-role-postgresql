@@ -1,0 +1,20 @@
+---
+# Setup/install tasks
+- include_tasks: install.yml
+
+# Initialize database cluster
+- include_tasks: initialize.yml
+
+# Start and activate database cluster
+- name: Ensure PostgreSQL is started and enabled on boot
+  service:
+    name: "{{ pg_service }}"
+    state: "{{ pg_service_state }}"
+    enabled: "{{ pg_service_enabled }}"
+
+# Configure cluster settings
+- include_tasks: configure.yml
+
+# Configure PostgreSQL
+- import_tasks: users.yml
+- import_tasks: databases.yml

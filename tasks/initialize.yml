@@ -1,0 +1,51 @@
+---
+- name: Set postgres user's OS password
+  become: true
+  become_user: "{{ pg_user }}"
+  command: echo "{{ pg_user_password }}:{{ pg_user_password }}" | chpasswd
+
+- name: Create .pgsql_profile for user postgres
+  file:
+    path: "{{ pg_user_home }}/.pgsql_profile"
+    state: touch
+    owner: "{{ pg_user }}"
+    group: "{{ pg_group }}"
+    mode: 0700
+
+- name: Add PostgreSQL environment variables
+  lineinfile:
+    dest: "{{ pg_user_home }}/.pgsql_profile"
+    insertafter: EOF
+    line: "export {{ item }}"
+    state: present
+  with_items: "{{ pg_env_vars }}"
+
+- name: Ensure PostgreSQL data directory exists
+  file:
+    path: "{{ pg_data_dir }}"
+    owner: "{{ pg_user }}"
+    group: "{{ pg_group }}"
+    state: directory
+    mode: 0700
+
+- name: Check if PostgreSQL cluster is initialized
+  stat:
+    path: "{{ pg_data_dir }}/PG_VERSION"
+  register: pgdata_dir_version
+
+- name: Ensure PostgreSQL cluster is initialized
+  command: "{{ pg_bin_path }}/initdb -D {{ pg_data_dir }} {{ pg_initdb_params }}"
+  when: not pgdata_dir_version.stat.exists
+  become: true
+  become_user: "{{ pg_user }}"
+  # See: https://github.com/ansible/ansible/issues/16048#issuecomment-229012509
+  vars:
+    ansible_ssh_pipelining: true
+
+- name: Create log directory
+  file:
+    path: "{{ pg_log_dir }}"
+    state: directory
+    owner: "{{ pg_user }}"
+    group: "{{ pg_group }}"
+    mode: '0744'

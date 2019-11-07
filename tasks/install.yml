@@ -1,0 +1,26 @@
+---
+- name: Add EPEL repository
+  yum:
+    name: epel-release
+    state: latest
+
+- name: Add PGDG repository
+  yum:
+    name: "{{ pg_repo_url }}"
+    state: present
+
+- name: Ensure PostgreSQL packages are installed
+  yum:
+    name: "{{ pg_packages }}"
+    state: present
+    enablerepo: "{{ pg_enablerepo | default(omit, true) }}"
+    # Don't let postgresql-contrib cause the /usr/bin/python symlink
+    # to be installed, which breaks later Ansible runs on Fedora 30,
+    # and affects system behavior in multiple ways.
+    exclude: python-unversioned-command
+
+- name: Ensure PostgreSQL Python libraries are installed
+  yum:
+    name: "{{ pg_python_library }}"
+    state: present
+    enablerepo: "{{ pg_enablerepo | default(omit, true) }}"
