@@ -3,6 +3,8 @@
   yum:
     name: epel-release
     state: latest
+  tags:
+    - skip_ansible_lint
 
 - name: Add PGDG repository
   yum:
