@@ -22,6 +22,8 @@
   become: true
   become_user: "{{ pg_user }}"
   shell: "psql -c \"ALTER ROLE {{ pg_superuser }} WITH PASSWORD '{{ pg_superuser_password }}';\""
+  args:
+    executable: /bin/bash
 
 - name: Configure global settings in postgresql.auto.conf
   postgresql_set:
@@ -29,7 +31,7 @@
     value: "{{ item.value }}"
   with_items: "{{ pg_postgresql_conf_params }}"
   when: pg_postgresql_conf_params | length > 0
-  # no_log: true
+  no_log: true
   become: true
   become_user: "{{ pg_user }}"
   notify: restart postgresql
