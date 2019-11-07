@@ -21,6 +21,6 @@
 
 - name: Ensure PostgreSQL Python libraries are installed
   yum:
-    name: "{{ pg_python_library }}"
+    name: "{{ pg_python_libraries }}"
     state: present
     enablerepo: "{{ pg_enablerepo | default(omit, true) }}"

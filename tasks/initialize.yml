@@ -1,8 +1,8 @@
 ---
 - name: Set postgres user's OS password
-  become: true
-  become_user: "{{ pg_user }}"
-  command: echo "{{ pg_user_password }}:{{ pg_user_password }}" | chpasswd
+  user:
+    name: "{{ pg_user }}"
+    password: "{{ pg_user_password | password_hash('sha512') }}"
 
 - name: Create .pgsql_profile for user postgres
   file:

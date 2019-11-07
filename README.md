@@ -37,7 +37,9 @@ pg_packages:
   - pg_top
 
 # Package for Python to administer PostgreSQL
-pg_python_library: python-psycopg2
+pg_python_libraries:
+  - python-psycopg2
+  - python-passlib
 
 # PostgreSQL OS user and group
 pg_user: postgres
@@ -81,22 +83,23 @@ pg_unix_socket_directories:
   - /var/run/postgresql
 
 # Configure parameters for cluster initialization
-pg_initdb_params: "--encoding=UTF8 --wal-segsize 64 --locale=de_DE.UTF-8 --lc-collate=C --lc-ctype=C --data-checksums --auth-host=scram-sha-256 --auth-local=peer"
+pg_initdb_params: "--encoding=UTF8 --wal-segsize 64 --locale=de_DE.UTF-8 --lc-collate=C --lc-ctype=C
+ --data-checksums --auth-host=scram-sha-256 --auth-local=peer"
 
 # Host based authentication (hba) entries to be added to the pg_hba.conf. This
 # variable's defaults reflect the defaults that come with a fresh installation.
 pg_hba_entries:
-  - { type: local, database: all, user: all, auth_method: peer }
-  - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5 }
-  - { type: host, database: all, user: all, address: '::1/128', auth_method: md5 }
-  - { type: local, database: replication, user: all, auth_method: peer }
-  - { type: host, database: replication, user: all, address: '127.0.0.1/32', auth_method: md5 }
-  - { type: host, database: replication, user: all, address: '::1/128', auth_method: md5 }
+  - {type: local, database: all, user: all, auth_method: peer}
+  - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5}
+  - {type: host, database: all, user: all, address: '::1/128', auth_method: md5}
+  - {type: local, database: replication, user: all, auth_method: peer}
+  - {type: host, database: replication, user: all, address: '127.0.0.1/32', auth_method: md5}
+  - {type: host, database: replication, user: all, address: '::1/128', auth_method: md5}
 
 # Global configuration options that will be set via ALTER SYSTEM in postgresql.auto.conf
 pg_postgresql_conf_params: []
-#  - name: 
-#    value: 
+#  - name:
+#    value:
 
 # Add databases to cluster
 pg_databases: []

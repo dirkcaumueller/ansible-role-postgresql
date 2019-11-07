@@ -17,7 +17,9 @@ pg_packages:
   - pg_top
 
 # Package for Python to administer PostgreSQL
-pg_python_library: python-psycopg2
+pg_python_libraries:
+  - python-psycopg2
+  - python-passlib
 
 # PostgreSQL OS user and group
 pg_user: postgres
