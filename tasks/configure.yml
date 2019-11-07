@@ -24,7 +24,6 @@
   shell: "psql -c \"ALTER ROLE {{ pg_superuser }} WITH PASSWORD '{{ pg_superuser_password }}';\""
   args:
     executable: /bin/bash
-  run_once: true
   tags:
     - skip_ansible_lint
 
