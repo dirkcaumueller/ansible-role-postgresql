@@ -25,8 +25,8 @@
   args:
     executable: /bin/bash
   run_once: true
-#  tags:
-#    - skip_ansible_lint
+  tags:
+    - skip_ansible_lint
 
 - name: Configure global settings in postgresql.auto.conf
   postgresql_set:
