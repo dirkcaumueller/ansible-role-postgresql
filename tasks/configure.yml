@@ -26,6 +26,8 @@
     executable: /bin/bash
   tags:
     - skip_ansible_lint
+  register: pg_superuser_password_change
+  changed_when: "pg_superuser_password_change.stdout('ALTER ROLE')"
 
 - name: Configure global settings in postgresql.auto.conf
   postgresql_set:
