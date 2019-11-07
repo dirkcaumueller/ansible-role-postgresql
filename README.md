@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/dirkcaumueller/ansible-role-postgresql.svg?branch=master)](https://travis-ci.org/dirkcaumueller/ansible-role-postgresql)
 
-Installs and configures PostgreSQL server on RHEL/CentOS servers.
+Installs and configures PostgreSQL v12 server on RHEL/CentOS servers.
 
 ## Requirements
 
