@@ -83,8 +83,7 @@ pg_unix_socket_directories:
   - /var/run/postgresql
 
 # Configure parameters for cluster initialization
-pg_initdb_params: "--encoding=UTF8 --wal-segsize 64 --locale=de_DE.UTF-8 --lc-collate=C --lc-ctype=C
- --data-checksums --auth-host=scram-sha-256 --auth-local=peer"
+pg_initdb_params: "--encoding=UTF8 --locale=en_US.UTF-8 --lc-collate=C --lc-ctype=C --data-checksums"
 
 # Host based authentication (hba) entries to be added to the pg_hba.conf. This
 # variable's defaults reflect the defaults that come with a fresh installation.
@@ -104,8 +103,8 @@ pg_postgresql_conf_params: []
 # Add databases to cluster
 pg_databases: []
 # - name: exampledb # required; the rest are optional
-#   lc_collate: # defaults to 'de_DE.UTF-8'
-#   lc_ctype: # defaults to 'de_DE.UTF-8'
+#   lc_collate: # defaults to 'en_US.UTF-8'
+#   lc_ctype: # defaults to 'en_US.UTF-8'
 #   encoding: # defaults to 'UTF-8'
 #   template: # defaults to 'template0'
 #   login_host: # defaults to 'localhost'
