@@ -5,6 +5,7 @@
     password: "{{ pg_user_password | password_hash('sha512') }}"
     update_password: always
     state: present
+  changed_when: false
   tags:
     - skip_ansible_lint
 
