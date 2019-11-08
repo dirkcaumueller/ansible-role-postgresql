@@ -83,8 +83,8 @@ pg_postgresql_conf_params: []
 # Add databases to cluster
 pg_databases: []
 # - name: exampledb # required; the rest are optional
-#   lc_collate: # defaults to 'de_DE.UTF-8'
-#   lc_ctype: # defaults to 'de_DE.UTF-8'
+#   lc_collate: # defaults to 'en_US.UTF-8'
+#   lc_ctype: # defaults to 'en_US.UTF-8'
 #   encoding: # defaults to 'UTF-8'
 #   template: # defaults to 'template0'
 #   login_host: # defaults to 'localhost'
