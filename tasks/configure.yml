@@ -19,13 +19,10 @@
   when: pg_hba_entries | length > 0
 
 - name: Set postgres superuser's database cluster password
+  postgresql_query:
+    query: "ALTER ROLE {{ pg_superuser }} WITH PASSWORD '{{ pg_superuser_password }}';"
   become: true
   become_user: "{{ pg_user }}"
-  shell: "psql -c \"ALTER ROLE {{ pg_superuser }} WITH PASSWORD '{{ pg_superuser_password }}';\""
-  args:
-    executable: /bin/bash
-  tags:
-    - skip_ansible_lint
 
 - name: Configure global settings in postgresql.auto.conf
   postgresql_set:
