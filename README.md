@@ -88,12 +88,12 @@ pg_initdb_params: "--encoding=UTF8 --locale=en_US.UTF-8 --lc-collate=C --lc-ctyp
 # Host based authentication (hba) entries to be added to the pg_hba.conf. This
 # variable's defaults reflect the defaults that come with a fresh installation.
 pg_hba_entries:
-  - {type: local, database: all, user: all, auth_method: peer}
-  - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5}
-  - {type: host, database: all, user: all, address: '::1/128', auth_method: md5}
-  - {type: local, database: replication, user: all, auth_method: peer}
-  - {type: host, database: replication, user: all, address: '127.0.0.1/32', auth_method: md5}
-  - {type: host, database: replication, user: all, address: '::1/128', auth_method: md5}
+  - {type: local, database: all, user: all, auth_method: peer, state: present}
+  - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5, state: present}
+  - {type: host, database: all, user: all, address: '::1/128', auth_method: md5, state: present}
+  - {type: local, database: replication, user: all, auth_method: peer, state: present}
+  - {type: host, database: replication, user: all, address: '127.0.0.1/32', auth_method: md5, state: present}
+  - {type: host, database: replication, user: all, address: '::1/128', auth_method: md5, state: present}
 
 # Global configuration options that will be set via ALTER SYSTEM in postgresql.auto.conf
 pg_postgresql_conf_params: []
@@ -117,7 +117,7 @@ pg_databases: []
 
 # Add users to cluster
 pg_users: []
-# - name: jdoe #required; the rest are optional
+# - name: jdoe # required; the rest are optional
 #   password: # defaults to not set
 #   encrypted: # defaults to not set
 #   priv: # defaults to not set
@@ -129,6 +129,12 @@ pg_users: []
 #   login_unix_socket: # defaults to 1st of '{{ pg_unix_socket_directories }}'
 #   port: # defaults to not set
 #   state: # defaults to 'present'
+
+# Add extensions to databases
+pg_extensions: []
+#  - name: pg_stat_statements # required
+#    db: postgres # required
+#    state: present # defaults to present
 ```
 
 ## Dependencies
