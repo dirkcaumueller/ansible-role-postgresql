@@ -114,4 +114,4 @@ pg_users: []
 pg_extensions: []
 #  - name: pg_stat_statements # required
 #    db: postgres # required
-#    state: present # defaults to present
+#    state: present # defaults to 'present'
