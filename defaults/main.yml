@@ -97,7 +97,7 @@ pg_databases: []
 
 # Add users to cluster
 pg_users: []
-# - name: jdoe #required; the rest are optional
+# - name: jdoe # required; the rest are optional
 #   password: # defaults to not set
 #   encrypted: # defaults to not set
 #   priv: # defaults to not set
@@ -109,3 +109,9 @@ pg_users: []
 #   login_unix_socket: # defaults to 1st of '{{ pg_unix_socket_directories }}'
 #   port: # defaults to not set
 #   state: # defaults to 'present'
+
+# Add extensions to databases
+pg_extensions: []
+#  - name: pg_stat_statements # required
+#    db: postgres # required
+#    state: present # defaults to present

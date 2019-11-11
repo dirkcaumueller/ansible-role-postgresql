@@ -1,0 +1,12 @@
+---
+- name: Ensure PostgreSQL databases are present
+  postgresql_ext:
+    name: "{{ item.name }}"
+    db: "{{ item.db }}"
+    state: "{{ item.state | default('present') }}"
+  with_items: "{{ pg_extensions }}"
+  become: true
+  become_user: "{{ pg_user }}"
+  # See: https://github.com/ansible/ansible/issues/16048#issuecomment-229012509
+  vars:
+    ansible_ssh_pipelining: true

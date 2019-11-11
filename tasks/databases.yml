@@ -8,10 +8,10 @@
     template: "{{ item.template | default('template0') }}"
     login_host: "{{ item.login_host | default('localhost') }}"
     login_password: "{{ item.login_password | default(omit) }}"
-    login_user: "{{ item.login_user | default(pg_user) }}"
+    login_user: "{{ item.login_user | default({{ pg_user }}) }}"
     login_unix_socket: "{{ item.login_unix_socket | default(pg_unix_socket_directories[0]) }}"
     port: "{{ item.port | default(omit) }}"
-    owner: "{{ item.owner | default(pg_user) }}"
+    owner: "{{ item.owner | default({{ pg_user }}) }}"
     state: "{{ item.state | default('present') }}"
   with_items: "{{ pg_databases }}"
   become: true
