@@ -29,7 +29,7 @@
     state: "{{ item.state }}"
   with_items: "{{ pg_hba_entries }}"
   when: pg_hba_entries | length > 0
-  no_log: true
+#  no_log: true
   become: true
   become_user: "{{ pg_user }}"
   # See: https://github.com/ansible/ansible/issues/16048#issuecomment-229012509
