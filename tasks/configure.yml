@@ -8,7 +8,7 @@
     mode: 02775
   with_items: "{{ pg_unix_socket_directories }}"
 
-- name: Configure host based authentication (if entries are configured)
+- name: Configure host based authentication
   postgresql_pg_hba:
     dest: "{{ pg_data_dir }}/pg_hba.conf"
     contype: "{{ item.type }}"
@@ -18,7 +18,6 @@
     method: "{{ item.auth_method }}"
     state: "{{ item.state }}"
   with_items: "{{ pg_hba_entries }}"
-  no_log: true
   become: true
   become_user: "{{ pg_user }}"
   # See: https://github.com/ansible/ansible/issues/16048#issuecomment-229012509
