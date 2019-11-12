@@ -1,5 +1,5 @@
 ---
-- name: Ensure PostgreSQL databases are present
+- name: Ensure PostgreSQL extensions are present
   postgresql_ext:
     name: "{{ item.name }}"
     version: "{{ item.version | default('latest') }}"
