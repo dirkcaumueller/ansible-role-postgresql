@@ -6,6 +6,16 @@
   tags:
     - skip_ansible_lint
 
+- name: Exclude CentOS PostgreSQL packages
+  ini_file:
+    path: /etc/yum.repos.d/CentOS-Base.repo
+    option: exclude
+    value: postgresql*
+    section: "{{ item }}"
+    with_items:
+      - base
+      - updates
+
 - name: Add PGDG repository
   yum:
     name: "{{ pg_repo_url }}"
