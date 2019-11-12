@@ -12,9 +12,9 @@
     option: exclude
     value: postgresql*
     section: "{{ item }}"
-    with_items:
-      - base
-      - updates
+  with_items:
+    - base
+    - updates
 
 - name: Add PGDG repository
   yum:
