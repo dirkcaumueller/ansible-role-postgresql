@@ -113,5 +113,13 @@ pg_users: []
 # Add extensions to databases
 pg_extensions: []
 #  - name: pg_stat_statements # required
+#    version: # defaults to 'latest'
 #    db: postgres # required
+#    schema: # defaults to not set
+#    cascade: # defaults to 'no'
+#    login_host: # defaults to 'localhost'
+#    login_password: # defaults to not set
+#    login_user: # defaults to '{{ pg_user }}'
+#    login_unix_socket: # defaults to 1st of '{{ pg_unix_socket_directories }}'
+#    port: # defaults to not set
 #    state: present # defaults to 'present'

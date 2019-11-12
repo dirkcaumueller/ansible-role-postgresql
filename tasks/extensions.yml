@@ -2,7 +2,15 @@
 - name: Ensure PostgreSQL databases are present
   postgresql_ext:
     name: "{{ item.name }}"
+    version: "{{ item.version | default('latest') }}"
     db: "{{ item.db }}"
+    schema: "{{ item.schema | default(omit) }}"
+    cascade: "{{ item.cascade | default('no') }}"
+    login_host: "{{ item.login_host | default('localhost') }}"
+    login_password: "{{ item.login_password | default(omit) }}"
+    login_user: "{{ item.login_user | default(pg_user) }}"
+    login_unix_socket: "{{ item.login_unix_socket | default(pg_unix_socket_directories[0]) }}"
+    port: "{{ item.port | default(omit) }}"
     state: "{{ item.state | default('present') }}"
   with_items: "{{ pg_extensions }}"
   when: pg_extensions | length > 0

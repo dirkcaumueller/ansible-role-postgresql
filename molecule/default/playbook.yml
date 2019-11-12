@@ -8,6 +8,9 @@
       - name: example
     pg_users:
       - name: jdoe
+    pg_extensions:
+      - name: pg_stat_statements
+        db: postgres
 
   pre_tasks:
     - name: Set custom variables for old CentOS 6 PostgreSQL install
