@@ -3,7 +3,7 @@ dependencies: []
 
 galaxy_info:
   author: dirkcaumueller
-  description: PostgreSQL server for Linux
+  description: PostgreSQL server for CentOS 7
   company: ""
   license: "license (BSD, MIT)"
   min_ansible_version: 2.8

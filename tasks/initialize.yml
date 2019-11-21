@@ -9,6 +9,20 @@
   tags:
     - skip_ansible_lint
 
+- name: Check if log directory exists
+  stat:
+    path: "{{ pg_log_dir }}"
+  register: pg_log_dir_stat
+
+- name: Create log directory
+  file:
+    path: "{{ pg_log_dir }}"
+    state: directory
+    owner: "{{ pg_user }}"
+    group: "{{ pg_group }}"
+    mode: '0744'
+  when: not pg_log_dir_stat.stat.exists
+
 - name: Check if .pgsql_profile file exists
   stat:
     path: "{{ pg_user_home }}/.pgsql_profile"
@@ -30,6 +44,7 @@
     line: "export {{ item }}"
     state: present
   with_items: "{{ pg_env_vars }}"
+  when: pg_env_vars | length > 0
 
 - name: Ensure PostgreSQL data directory exists
   file:
@@ -52,11 +67,3 @@
   # See: https://github.com/ansible/ansible/issues/16048#issuecomment-229012509
   vars:
     ansible_ssh_pipelining: true
-
-- name: Create log directory
-  file:
-    path: "{{ pg_log_dir }}"
-    state: directory
-    owner: "{{ pg_user }}"
-    group: "{{ pg_group }}"
-    mode: '0744'

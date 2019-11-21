@@ -3,3 +3,8 @@
   service:
     name: "{{ pg_service }}"
     state: "{{ pg_restarted_state }}"
+
+- name: stop postgresql
+  service:
+    name: "{{ pg_service }}"
+    state: stop
