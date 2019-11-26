@@ -16,5 +16,4 @@
 
 - name: Include EnterpriseDB specific variables
   include_vars: "edb_vars.yml"
-  when:
   when: pg_type == 'edb'
