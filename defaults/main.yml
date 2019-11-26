@@ -22,7 +22,7 @@ pg_superuser_password: ""
 pg_log_dir: ""
 
 # WAL archive directory (leave empty String if not required)
-pg_wal_archive: ""
+pg_wal_archive_dir: ""
 
 # Set postgresql state when configuration changes are made. Recommended values:
 # 'restarted' or 'reloaded'
