@@ -16,10 +16,17 @@
     - base
     - updates
 
-- name: Add PGDG repository
+- name: Add Yum repository
   yum:
     name: "{{ pg_repo_url }}"
     state: present
+
+- name: Set username and password for EDB Yum repository
+  replace:
+    path: /etc/yum.repos.d/edb.repo
+    regexp: '<username>:<password>'
+    replace: "{{ edb_yum_username }}:{{ edb_yum_password }}"
+  when: pg_type = 'edb'
 
 - name: Ensure PostgreSQL packages are installed
   yum:
@@ -30,6 +37,7 @@
     # to be installed, which breaks later Ansible runs on Fedora 30,
     # and affects system behavior in multiple ways.
     exclude: python-unversioned-command
+  when: pg_type = 'pg'
 
 - name: Ensure PostgreSQL Python libraries are installed
   yum:

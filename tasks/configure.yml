@@ -1,13 +1,4 @@
 ---
-- name: Ensure PostgreSQL unix socket directories exist
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ pg_user }}"
-    group: "{{ pg_group }}"
-    mode: 02775
-  with_items: "{{ pg_unix_socket_directories }}"
-
 - name: Configure host based authentication
   postgresql_pg_hba:
     dest: "{{ pg_data_dir }}/pg_hba.conf"
@@ -31,6 +22,7 @@
     query: "ALTER ROLE {{ pg_superuser }} WITH PASSWORD '{{ pg_superuser_password }}';"
   become: true
   become_user: "{{ pg_user }}"
+  when: pg_superuser_password | length > 0
   changed_when: false
 
 - name: Configure global settings in postgresql.auto.conf

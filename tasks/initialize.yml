@@ -5,6 +5,7 @@
     password: "{{ pg_user_password | password_hash('sha512') }}"
     update_password: always
     state: present
+  when: pg_user_password | length > 0
   changed_when: false
   tags:
     - skip_ansible_lint
@@ -13,6 +14,7 @@
   stat:
     path: "{{ pg_log_dir }}"
   register: pg_log_dir_stat
+  when: pg_log_dir | length > 0
 
 - name: Create log directory
   file:
@@ -21,7 +23,26 @@
     owner: "{{ pg_user }}"
     group: "{{ pg_group }}"
     mode: '0744'
-  when: not pg_log_dir_stat.stat.exists
+  when:
+    - pg_log_dir | length > 0
+    - not pg_log_dir_stat.stat.exists
+
+- name: Check if WAL archive directory exists
+  stat:
+    path: "{{ pg_wal_archive_dir }}"
+  register: pg_wal_archive_dir_stat
+  when: pg_wal_archive_dir | length > 0
+
+- name: Create WAL archive directory
+  file:
+    path: "{{ pg_wal_archive_dir }}"
+    state: directory
+    owner: "{{ pg_user }}"
+    group: "{{ pg_group }}"
+    mode: '0744'
+  when:
+    - pg_wal_archive_dir | length > 0
+    - not pg_wal_archive_dir_stat.stat.exists
 
 - name: Check if .pgsql_profile file exists
   stat:
@@ -67,3 +88,12 @@
   # See: https://github.com/ansible/ansible/issues/16048#issuecomment-229012509
   vars:
     ansible_ssh_pipelining: true
+
+- name: Ensure PostgreSQL unix socket directories exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ pg_user }}"
+    group: "{{ pg_group }}"
+    mode: 02775
+  with_items: "{{ pg_unix_socket_directories }}"

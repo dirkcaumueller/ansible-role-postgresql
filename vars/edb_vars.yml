@@ -1,0 +1,49 @@
+---
+# PostgreSQL Development Group Yum repository url
+pg_repo_url: "http://yum.enterprisedb.com/edbrepos/edb-repo-latest.noarch.rpm"
+
+# Set a repository to use for PostgreSQL installation
+pg_enablerepo: "edbas{{ pg_major_version }},enterprisedb-dependencies,enterprisedb-tools"
+
+# Packages to install for PostgreSQL
+pg_packages:
+  - edb-as{{ pg_major_version }}-server
+  - edb-as{{ pg_major_version }}-server-core
+  - edb-as{{ pg_major_version }}-server-edb-modules
+  - edb-as{{ pg_major_version }}-server-contrib
+  - edb-as{{ pg_major_version }}-server-libs
+  - edb-as{{ pg_major_version }}-server-client
+  - edb-as{{ pg_major_version }}-server-llvmjit
+  - edb-as{{ pg_major_version }}-server-sslutils
+
+# PostgreSQL OS user and group
+pg_user: enterprisedb
+pg_group: enterprisedb
+
+# PostgreSQL database cluster superuser
+pg_superuser: enterprisedb
+
+# Home directory of postgres user
+pg_user_home: "/var/lib/edb"
+
+# Set the cluster directory
+pg_data_dir: "/var/lib/edb/as{{ pg_major_version }}/data"
+
+# Binary path
+pg_bin_path: "/usr/edb/as{{ pg_major_version }}/bin"
+
+# PostgreSQL service
+pg_service: edb-as-{{ pg_major_version }}
+pg_service_state: started
+pg_service_enabled: true
+
+# PostgreSQL environment variables
+pg_env_vars:
+  - "PATH=/usr/edb/as{{ pg_major_version }}/bin:$PATH"
+  - "LD_LIBRARY_PATH=/usr/edb/as{{ pg_major_version }}/lib:$LD_LIBRARY_PATH"
+  - "PGLOCALEDIR=/usr/edb/as{{ pg_major_version }}/share/locale"
+  - "PGDATA={{ pg_data_dir }}"
+
+# Directory for UNIX sockets
+pg_unix_socket_directories:
+  - /var/run/postgresql
