@@ -2,6 +2,12 @@
 # PostgreSQL Development Group Yum repository url
 pg_repo_url: "http://yum.enterprisedb.com/edbrepos/edb-repo-latest.noarch.rpm"
 
+# Username for EDB Yum repository
+edb_yum_username: ""
+
+# Password for EDB Yum repository
+edb_yum_password: ""
+
 # Set a repository to use for PostgreSQL installation
 pg_enablerepo: "edbas{{ pg_major_version }},enterprisedb-dependencies,enterprisedb-tools"
 
