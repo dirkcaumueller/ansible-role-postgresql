@@ -100,10 +100,10 @@
 
 - name: Create RAM-disk for pg_stat_tmp
   mount:
-    backup: yes
+    backup: true
     path: "{{ pg_data_dir }}/pg_stat_tmp"
     src: tmpfs
     fstype: tmpfs
     opts: "size={{ pg_stat_tmp_ram_size }},uid={{ pg_user }},gid={{ pg_group }}"
     state: mounted
-  when: pg_stat_tmp_on_ram_disk|default(false)|bool
+  when: pg_stat_tmp_on_ram_disk|default(false)
