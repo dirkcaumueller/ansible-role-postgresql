@@ -97,3 +97,13 @@
     group: "{{ pg_group }}"
     mode: 02775
   with_items: "{{ pg_unix_socket_directories }}"
+
+- name: Create RAM-disk for pg_stat_tmp
+  mount:
+    backup: yes
+    path: "{{ pg_data_dir }}/pg_stat_tmp"
+    src: tmpfs
+    fstype: tmpfs
+    opts: "size={{ pg_stat_tmp_ram_size }},uid={{ pg_user }},gid={{ pg_group }}"
+    state: mounted
+  when: pg_stat_tmp_on_ram_disk == 'Y'
