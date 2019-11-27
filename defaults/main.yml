@@ -24,8 +24,8 @@ pg_log_dir: ""
 # WAL archive directory (leave empty String if not required)
 pg_wal_archive_dir: ""
 
-# Make ${PGDATA}/pg_stat_tmp a RAM-disk (Y/N)
-pg_stat_tmp_on_ram_disk: "N"
+# Make ${PGDATA}/pg_stat_tmp a RAM-disk (false/true)
+pg_stat_tmp_on_ram_disk: "false"
 
 # Size of the ${PGDATA}/pg_stat_tmp Ram-disk
 pg_stat_tmp_ram_size: "128m"
