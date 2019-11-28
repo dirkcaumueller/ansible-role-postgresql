@@ -7,32 +7,68 @@ pg_type: pg
 # Set major version of PostgreSQL
 pg_major_version: 12
 
+# Create a master or standby PostgreSQL instance
+pg_cluster_type: master
+
+# PostgreSQL Development Group Yum repository
+pg_repo_url: "https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
+pg_enablerepo: "pgdg12"
+
+# Packages to install for PostgreSQL
+pg_packages:
+  - postgresql{{ pg_major_version }}-server
+  - postgresql{{ pg_major_version }}-contrib
+  - postgresql{{ pg_major_version }}-libs
+  - postgresql{{ pg_major_version }}
+  - pg_top
+
 # Package for Python to administer PostgreSQL
 pg_python_libraries:
   - python-psycopg2
   - python-passlib
 
-# PostgreSQL OS user password
+# PostgreSQL OS user and group
+pg_user: postgres
 pg_user_password: ""
+pg_group: postgres
 
-# PostgreSQL database cluster superuser password
+# PostgreSQL database cluster superuser
+pg_superuser: postgres
 pg_superuser_password: ""
 
-# Log directory (leave empty for default)
+# Required & optional directories
+pg_user_home: "/var/lib/pgsql"
+pg_data_dir: "/var/lib/pgsql/{{ pg_major_version }}/data"
+pg_bin_path: "/usr/pgsql-{{ pg_major_version }}/bin"
 pg_log_dir: ""
-
-# WAL archive directory (leave empty String if not required)
 pg_wal_archive_dir: ""
 
-# Make ${PGDATA}/pg_stat_tmp a RAM-disk (false/true)
+# Make ${PGDATA}/pg_stat_tmp a RAM-disk (false/true) with defined size
 pg_stat_tmp_on_ram_disk: false
-
-# Size of the ${PGDATA}/pg_stat_tmp Ram-disk
 pg_stat_tmp_ram_size: "128m"
+
+# PostgreSQL port
+pg_port: 5432
+
+# PostgreSQL service
+pg_service: postgresql-{{ pg_major_version }}
+pg_service_state: started
+pg_service_enabled: true
 
 # Set postgresql state when configuration changes are made. Recommended values:
 # 'restarted' or 'reloaded'
 pg_restarted_state: restarted
+
+# PostgreSQL environment variables
+pg_env_vars:
+  - "PATH=/usr/pgsql-{{ pg_major_version }}/bin:$PATH"
+  - "LD_LIBRARY_PATH=/usr/pgsql-{{ pg_major_version }}/lib:$LD_LIBRARY_PATH"
+  - "PGLOCALEDIR=/usr/pgsql-{{ pg_major_version }}/share/locale"
+  - "PGDATA={{ pg_data_dir }}"
+
+# Directory for UNIX sockets
+pg_unix_socket_directories:
+  - /var/run/postgresql
 
 # Configure parameters for cluster initialization
 pg_initdb_params: "--encoding=UTF8 --locale=en_US.UTF-8 --lc-collate=C --lc-ctype=C --data-checksums"
@@ -46,6 +82,7 @@ pg_hba_entries:
   - {type: local, database: replication, user: all, address: null, auth_method: peer, state: present}
   - {type: host, database: replication, user: all, address: '127.0.0.1/32', auth_method: md5, state: present}
   - {type: host, database: replication, user: all, address: '::1/128', auth_method: md5, state: present}
+#  - {type: host, database: replication, user: replicator, address: '192.168.56.0/24', auth_method: scram-sha-256, state: present}
 
 # Global configuration options that will be set via ALTER SYSTEM in postgresql.auto.conf
 pg_postgresql_conf_params: []
@@ -72,7 +109,6 @@ pg_users: []
 # - name: jdoe # required; the rest are optional
 #   password: # defaults to not set
 #   encrypted: # defaults to not set
-#   priv: # defaults to not set
 #   role_attr_flags: # defaults to not set
 #   db: # defaults to not set
 #   login_host: # defaults to 'localhost'
@@ -81,6 +117,13 @@ pg_users: []
 #   login_unix_socket: # defaults to 1st of '{{ pg_unix_socket_directories }}'
 #   port: # defaults to not set
 #   state: # defaults to 'present'
+#
+# - name: replicator # Role for streaming replication
+#   password: replicator_password
+#   role_attr_flags: REPLICATION
+#   db: postgres
+#   login_user: "{{ pg_user }}""
+#   state: present
 
 # Add extensions to databases
 pg_extensions: []
@@ -95,3 +138,10 @@ pg_extensions: []
 #    login_unix_socket: # defaults to 1st of '{{ pg_unix_socket_directories }}'
 #    port: # defaults to not set
 #    state: present # defaults to 'present'
+
+# Add existing roles of db cluster to .pgpass file; password taken from pg_shadow
+pg_pass_roles: []
+#  - name: replicator
+#    hostname: "*"
+#    port: "{{ pg_port }}"
+#    database: replication

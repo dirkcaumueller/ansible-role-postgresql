@@ -37,10 +37,20 @@
     # to be installed, which breaks later Ansible runs on Fedora 30,
     # and affects system behavior in multiple ways.
     exclude: python-unversioned-command
-  when: pg_type == 'pg'
 
 - name: Ensure PostgreSQL Python libraries are installed
   yum:
     name: "{{ pg_python_libraries }}"
     state: present
     enablerepo: "{{ pg_enablerepo | default(omit, true) }}"
+
+- name: Set postgres user's OS password
+  user:
+    name: "{{ pg_user }}"
+    password: "{{ pg_user_password | password_hash('sha512') }}"
+    update_password: always
+    state: present
+  when: pg_user_password | length > 0
+  changed_when: false
+  tags:
+    - skip_ansible_lint

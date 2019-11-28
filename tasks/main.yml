@@ -1,24 +1,35 @@
 ---
-# Variable configuration
-- include_tasks: variables.yml
+- name: Include EDB specific variables
+  import_vars: edb_vars.yml
+  when: pg_type == "edb"
 
-# Setup/install tasks
-- include_tasks: install.yml
+- import_tasks: install.yml
 
-# Initialize database cluster
-- include_tasks: initialize.yml
+- import_tasks: create_directories.yml
 
-# Start and activate database cluster
-- name: Ensure PostgreSQL is started and enabled on boot
-  service:
-    name: "{{ pg_service }}"
-    state: "{{ pg_service_state }}"
-    enabled: "{{ pg_service_enabled }}"
+- import_tasks: configure_environment.yml
 
-# Configure cluster settings
-- include_tasks: configure.yml
+- name: Create master cluster
+  block:
+    - import_tasks: initialize_master.yml
 
-# Configure PostgreSQL
-- import_tasks: users.yml
-- import_tasks: databases.yml
-- import_tasks: extensions.yml
+    - name: Ensure PostgreSQL is started and enabled on boot
+      service:
+        name: "{{ pg_service }}"
+        state: "{{ pg_service_state }}"
+        enabled: "{{ pg_service_enabled }}"
+
+    - import_tasks: configure_master.yml
+    - import_tasks: users.yml
+    - import_tasks: databases.yml
+    - import_tasks: extensions.yml
+  when: pg_cluster_type == "master"
+
+- name: Create standby cluster
+  block:
+    - import_tasks: initialize_standby.yml
+    - import_tasks: configure_standby.yml
+  when: pg_cluster_type == "standby"
+
+- import_tasks: create_ram_disk.yml
+  when: pg_stat_tmp_on_ram_disk|default(false)

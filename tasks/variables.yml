@@ -1,8 +1,0 @@
----
-- name: Include Community PostgreSQL specific variables
-  include_vars: "pg_vars.yml"
-  when: pg_type == 'pg'
-
-- name: Include EnterpriseDB specific variables
-  include_vars: "edb_vars.yml"
-  when: pg_type == 'edb'

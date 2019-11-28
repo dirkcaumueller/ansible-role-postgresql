@@ -1,0 +1,35 @@
+---
+- name: Create PostgreSQL data directory
+  file:
+    path: "{{ pg_data_dir }}"
+    owner: "{{ pg_user }}"
+    group: "{{ pg_group }}"
+    mode: 0700
+    state: directory
+
+- name: Create log directory
+  file:
+    path: "{{ pg_log_dir }}"
+    owner: "{{ pg_user }}"
+    group: "{{ pg_group }}"
+    mode: 0744
+    state: directory
+  when: pg_log_dir | length > 0
+
+- name: Create WAL archive directory
+  file:
+    path: "{{ pg_wal_archive_dir }}"
+    owner: "{{ pg_user }}"
+    group: "{{ pg_group }}"
+    mode: 0744
+    state: directory
+  when: pg_wal_archive_dir | length > 0
+
+- name: Ensure PostgreSQL unix socket directories exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ pg_user }}"
+    group: "{{ pg_group }}"
+    mode: 02775
+  with_items: "{{ pg_unix_socket_directories }}"

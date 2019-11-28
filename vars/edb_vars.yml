@@ -1,15 +1,9 @@
 ---
-# PostgreSQL Development Group Yum repository url
+# EnterpriseDB Yum repository url
 pg_repo_url: "http://yum.enterprisedb.com/edbrepos/edb-repo-latest.noarch.rpm"
-
-# Username for EDB Yum repository
-edb_yum_username: ""
-
-# Password for EDB Yum repository
-edb_yum_password: ""
-
-# Set a repository to use for PostgreSQL installation
 pg_enablerepo: "edbas{{ pg_major_version }},enterprisedb-dependencies,enterprisedb-tools"
+edb_yum_username: ""
+edb_yum_password: ""
 
 # Packages to install for PostgreSQL
 pg_packages:
@@ -22,26 +16,23 @@ pg_packages:
   - edb-as{{ pg_major_version }}-server-llvmjit
   - edb-as{{ pg_major_version }}-server-sslutils
 
-# PostgreSQL OS user and group
+# EnterpriseDB OS user and group
 pg_user: enterprisedb
 pg_group: enterprisedb
 
-# PostgreSQL database cluster superuser
+# EnterpriseDB database cluster superuser
 pg_superuser: enterprisedb
 
 # Home directory of postgres user
 pg_user_home: "/var/lib/edb"
-
-# Set the cluster directory
 pg_data_dir: "/var/lib/edb/as{{ pg_major_version }}/data"
-
-# Binary path
 pg_bin_path: "/usr/edb/as{{ pg_major_version }}/bin"
+
+# PostgreSQL port
+pg_port: 5444
 
 # PostgreSQL service
 pg_service: edb-as-{{ pg_major_version }}
-pg_service_state: started
-pg_service_enabled: true
 
 # PostgreSQL environment variables
 pg_env_vars:
