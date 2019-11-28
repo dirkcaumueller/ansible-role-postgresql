@@ -14,7 +14,13 @@
   when: not pgpass_stat.stat.exists
 
 - name: Add roles to .pgpass file (hostname:port:database:username:password)
-  command: psql -tc "COPY(SELECT '{{ item.hostname }}:{{ item.port }}:{{ item.database }}:{{ item.name }}:'||passwd FROM pg_shadow WHERE usename = '{{ item.name }}') TO STDOUT" >> "{{ pg_user_home }}"/.pgpass
+  command: |
+    psql -t <<'SQL' 
+      COPY(SELECT '{{ item.hostname }}:{{ item.port }}:{{ item.database }}:{{ item.name }}:'||passwd 
+      FROM pg_shadow 
+      WHERE usename = '{{ item.name }}') 
+      TO STDOUT
+    SQL >> "{{ pg_user_home }}"/.pgpass
   with_items: "{{ pg_pass_roles }}"
   when: pg_pass_roles | length > 0
   become: true
