@@ -18,3 +18,8 @@
   service:
     name: "{{ pg_service }}"
     state: stop
+
+- name: restart sshd
+  service:
+    name: sshd
+    state: restart
