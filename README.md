@@ -1,6 +1,6 @@
 # Ansible Role: PostgreSQL
 
-[![Build Status](https://travis-ci.org/dirkcaumueller/postgresql.svg?branch=master)](https://travis-ci.org/dirkcaumueller/postgresql)
+[![Build Status](https://travis-ci.org/dirkcaumueller/postgresql.svg?branch=master)](https://travis-ci.org/dirkcaumueller/ansible-role-postgresql)
 
 Installs and configures PostgreSQL v12 server on RHEL/CentOS servers.
 
