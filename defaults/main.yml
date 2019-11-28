@@ -82,7 +82,6 @@ pg_hba_entries:
   - {type: local, database: replication, user: all, address: null, auth_method: peer, state: present}
   - {type: host, database: replication, user: all, address: '127.0.0.1/32', auth_method: md5, state: present}
   - {type: host, database: replication, user: all, address: '::1/128', auth_method: md5, state: present}
-#  - {type: host, database: replication, user: replicator, address: '192.168.56.0/24', auth_method: scram-sha-256, state: present}
 
 # Global configuration options that will be set via ALTER SYSTEM in postgresql.auto.conf
 pg_postgresql_conf_params: []

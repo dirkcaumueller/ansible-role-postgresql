@@ -15,10 +15,10 @@
 
 - name: Add roles to .pgpass file (hostname:port:database:username:password)
   command: |
-    psql -t <<'SQL' 
-      COPY(SELECT '{{ item.hostname }}:{{ item.port }}:{{ item.database }}:{{ item.name }}:'||passwd 
-      FROM pg_shadow 
-      WHERE usename = '{{ item.name }}') 
+    psql -t <<'SQL'
+      COPY(SELECT '{{ item.hostname }}:{{ item.port }}:{{ item.database }}:{{ item.name }}:'||passwd
+      FROM pg_shadow
+      WHERE usename = '{{ item.name }}')
       TO STDOUT
     SQL >> "{{ pg_user_home }}"/.pgpass
   with_items: "{{ pg_pass_roles }}"
