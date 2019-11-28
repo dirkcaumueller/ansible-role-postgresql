@@ -1,6 +1,6 @@
 ---
 - name: Include EDB specific variables
-  import_vars: edb_vars.yml
+  include_vars: edb_vars.yml
   when: pg_type == "edb"
 
 - import_tasks: install.yml
