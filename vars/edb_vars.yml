@@ -2,8 +2,8 @@
 # EnterpriseDB Yum repository url
 pg_repo_url: "http://yum.enterprisedb.com/edbrepos/edb-repo-latest.noarch.rpm"
 pg_enablerepo: "edb"
-#edb_yum_username: ""
-#edb_yum_password: ""
+# edb_yum_username: ""
+# edb_yum_password: ""
 
 # Packages to install for PostgreSQL
 pg_packages:
