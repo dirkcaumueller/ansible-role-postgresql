@@ -1,9 +1,9 @@
 ---
 # EnterpriseDB Yum repository url
 pg_repo_url: "http://yum.enterprisedb.com/edbrepos/edb-repo-latest.noarch.rpm"
-pg_enablerepo: "edbas{{ pg_major_version }},enterprisedb-dependencies,enterprisedb-tools"
-edb_yum_username: ""
-edb_yum_password: ""
+pg_enablerepo: "edb"
+#edb_yum_username: ""
+#edb_yum_password: ""
 
 # Packages to install for PostgreSQL
 pg_packages:
@@ -15,6 +15,9 @@ pg_packages:
   - edb-as{{ pg_major_version }}-server-client
   - edb-as{{ pg_major_version }}-server-llvmjit
   - edb-as{{ pg_major_version }}-server-sslutils
+  - edb-as{{ pg_major_version }}-server-indexadvisor
+  - edb-as{{ pg_major_version }}-server-sqlprofiler
+  - edb-as{{ pg_major_version }}-server-sqlprotect
 
 # EnterpriseDB OS user and group
 pg_user: enterprisedb
