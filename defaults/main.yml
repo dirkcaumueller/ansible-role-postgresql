@@ -59,6 +59,9 @@ pg_service_enabled: true
 # 'restarted' or 'reloaded'
 pg_restarted_state: restarted
 
+# Profile filename
+pg_profile_filename: .pgsql_profile
+
 # PostgreSQL environment variables
 pg_env_vars:
   - "PATH=/usr/pgsql-{{ pg_major_version }}/bin:$PATH"

@@ -1,12 +1,12 @@
 ---
-- name: Check if .pgsql_profile file exists
+- name: Check if profile file exists
   stat:
-    path: "{{ pg_user_home }}/.pgsql_profile"
+    path: "{{ pg_user_home }}/{{ pg_profile_filename }}"
   register: pgsql_profile_stat
 
-- name: Create .pgsql_profile for user postgres
+- name: Create profile for user
   file:
-    path: "{{ pg_user_home }}/.pgsql_profile"
+    path: "{{ pg_user_home }}/{{ pg_profile_filename }}"
     state: touch
     owner: "{{ pg_user }}"
     group: "{{ pg_group }}"
@@ -15,7 +15,7 @@
 
 - name: Add PostgreSQL environment variables
   lineinfile:
-    dest: "{{ pg_user_home }}/.pgsql_profile"
+    dest: "{{ pg_user_home }}/{{ pg_profile_filename }}"
     insertafter: EOF
     line: "export {{ item }}"
     state: present

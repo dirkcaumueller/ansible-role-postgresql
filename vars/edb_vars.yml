@@ -37,6 +37,9 @@ pg_port: 5444
 # PostgreSQL service
 pg_service: edb-as-{{ pg_major_version }}
 
+# Profile filename
+pg_profile_filename: .enterprisedb_profile
+
 # PostgreSQL environment variables
 pg_env_vars:
   - "PATH=/usr/edb/as{{ pg_major_version }}/bin:$PATH"
