@@ -1,4 +1,8 @@
 ---
+- name: Stop PostgreSQL service
+  command: /bin/true
+  notify: stop postgresql
+
 - name: Create RAM-disk for pg_stat_tmp
   mount:
     backup: true
@@ -8,4 +12,4 @@
     opts: "size={{ pg_stat_tmp_ram_size }},uid={{ pg_user }},gid={{ pg_group }}"
     state: mounted
   when: pg_stat_tmp_on_ram_disk|default(false)
-  notify: restart postgresql
+  notify: start postgresql

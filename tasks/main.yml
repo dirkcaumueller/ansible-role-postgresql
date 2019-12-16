@@ -4,34 +4,22 @@
   when: pg_type == "edb"
 
 - import_tasks: install.yml
-
 - import_tasks: create_directories.yml
-
 - import_tasks: configure_environment.yml
 
 - name: Create master cluster
   block:
     - import_tasks: initialize_master.yml
-
-    - name: Ensure PostgreSQL is started and enabled on boot
-      service:
-        name: "{{ pg_service }}"
-        state: "{{ pg_service_state }}"
-        enabled: "{{ pg_service_enabled }}"
-
     - import_tasks: configure_master.yml
     - import_tasks: create_database_objects.yml
   when: pg_cluster_type == "master"
 
+- import_tasks: configure_pgpass.yml
+  when: pg_pass_roles | length > 0
+
 - name: Create standby cluster
   block:
     - import_tasks: initialize_standby.yml
-
-    - name: Ensure PostgreSQL is started and enabled on boot
-      service:
-        name: "{{ pg_service }}"
-        state: "{{ pg_service_state }}"
-        enabled: "{{ pg_service_enabled }}"
   when: pg_cluster_type == "standby"
 
 - import_tasks: create_ram_disk.yml
