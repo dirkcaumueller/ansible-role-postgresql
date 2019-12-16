@@ -52,7 +52,6 @@ pg_port: 5432
 
 # PostgreSQL service
 pg_service: postgresql-{{ pg_major_version }}
-pg_service_state: started
 pg_service_enabled: true
 
 # Set postgresql state when configuration changes are made. Recommended values:

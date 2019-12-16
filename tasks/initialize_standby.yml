@@ -25,7 +25,6 @@
                   -D {{ pg_data_dir }}
   become: true
   become_user: "{{ pg_user }}"
-  notify: start enable postgresql
 
 - name: Set cluster ownership
   file:
@@ -34,3 +33,7 @@
     recurse: true
     owner: "{{ pg_user }}"
     group: "{{ pg_group }}"
+
+- name: Start PostgreSQL service
+  command: /bin/true
+  notify: start enable postgresql
