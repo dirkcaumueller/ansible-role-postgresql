@@ -19,7 +19,7 @@
 
 - name: Set postgres superuser's database cluster password
   postgresql_query:
-    login_unix_socket: "/tmp"
+    login_unix_socket: "{{ pg_unix_socket_directory "
     port: "{{ pg_port }}"
     db: "postgres"
     login_user: "{{ pg_superuser }}"
