@@ -28,7 +28,6 @@
 - name: Create standby cluster
   block:
     - import_tasks: initialize_standby.yml
-    - import_tasks: configure_standby.yml
   when: pg_cluster_type == "standby"
 
 - import_tasks: create_ram_disk.yml

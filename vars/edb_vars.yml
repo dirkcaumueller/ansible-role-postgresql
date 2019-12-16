@@ -5,7 +5,7 @@ pg_enablerepo: "edb"
 # edb_yum_username: ""
 # edb_yum_password: ""
 
-# Packages to install for PostgreSQL
+# Packages to install for PostgreSQL Advanced Server
 pg_packages:
   - edb-as{{ pg_major_version }}-server
   - edb-as{{ pg_major_version }}-server-core
@@ -26,7 +26,7 @@ pg_group: enterprisedb
 # EnterpriseDB database cluster superuser
 pg_superuser: enterprisedb
 
-# Home directory of postgres user
+# Home directory of enterprisedb user
 pg_user_home: "/var/lib/edb"
 pg_data_dir: "/var/lib/edb/as{{ pg_major_version }}/data"
 pg_bin_path: "/usr/edb/as{{ pg_major_version }}/bin"
