@@ -20,9 +20,7 @@
         enabled: "{{ pg_service_enabled }}"
 
     - import_tasks: configure_master.yml
-    - import_tasks: users.yml
-    - import_tasks: databases.yml
-    - import_tasks: extensions.yml
+    - import_tasks: create_database_objects.yml
   when: pg_cluster_type == "master"
 
 - name: Create standby cluster
