@@ -19,13 +19,19 @@ Available variables are listed below, along with default values (see `defaults/m
 
 ```yml
 ---
+# Set PostgreSQL type
+# pg - Community PostgreSQL (default)
+# edb - EnterpriseDB PostgreSQL Advanced Server
+pg_type: pg
+
 # Set major version of PostgreSQL
 pg_major_version: 12
 
-# PostgreSQL Development Group YUM repository url
-pg_repo_url: "https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
+# Create a master or standby PostgreSQL instance
+pg_cluster_type: master
 
-# Set a repository to use for PostgreSQL installation
+# PostgreSQL Development Group Yum repository
+pg_repo_url: "https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
 pg_enablerepo: "pgdg12"
 
 # Packages to install for PostgreSQL
@@ -43,24 +49,26 @@ pg_python_libraries:
 
 # PostgreSQL OS user and group
 pg_user: postgres
-pg_user_password: postgres
+pg_user_password: ""
 pg_group: postgres
 
 # PostgreSQL database cluster superuser
 pg_superuser: postgres
-pg_superuser_password: postgres
+pg_superuser_password: ""
 
-# Home directory of postgres user
+# Required & optional directories
 pg_user_home: "/var/lib/pgsql"
-
-# Set the cluster directory
 pg_data_dir: "/var/lib/pgsql/{{ pg_major_version }}/data"
-
-# Binary path
 pg_bin_path: "/usr/pgsql-{{ pg_major_version }}/bin"
+pg_log_dir: ""
+pg_wal_archive_dir: ""
 
-# Log directory
-pg_log_dir: "/var/log/pgsql-{{ pg_major_version }}"
+# Make ${PGDATA}/pg_stat_tmp a RAM-disk (false/true) with defined size
+pg_stat_tmp_on_ram_disk: false
+pg_stat_tmp_ram_size: "128m"
+
+# PostgreSQL port
+pg_port: 5432
 
 # PostgreSQL service
 pg_service: postgresql-{{ pg_major_version }}
@@ -85,8 +93,8 @@ pg_unix_socket_directories:
 # Configure parameters for cluster initialization
 pg_initdb_params: "--encoding=UTF8 --locale=en_US.UTF-8 --lc-collate=C --lc-ctype=C --data-checksums"
 
-# Host based authentication (hba) entries to be added to the pg_hba.conf. This
-# variable's defaults reflect the defaults that come with a fresh installation.
+# Host based authentication (hba) entries to be added to the pg_hba.conf; this
+# variable's defaults reflect the defaults that come with a fresh installation
 pg_hba_entries:
   - {type: local, database: all, user: all, address: null, auth_method: peer, state: present}
   - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5, state: present}
@@ -120,7 +128,6 @@ pg_users: []
 # - name: jdoe # required; the rest are optional
 #   password: # defaults to not set
 #   encrypted: # defaults to not set
-#   priv: # defaults to not set
 #   role_attr_flags: # defaults to not set
 #   db: # defaults to not set
 #   login_host: # defaults to 'localhost'
@@ -129,12 +136,88 @@ pg_users: []
 #   login_unix_socket: # defaults to 1st of '{{ pg_unix_socket_directories }}'
 #   port: # defaults to not set
 #   state: # defaults to 'present'
+#
+# - name: replicator # Role for streaming replication
+#   password: replicator_password
+#   role_attr_flags: REPLICATION
+#   db: postgres
+#   login_user: "{{ pg_user }}""
+#   state: present
 
 # Add extensions to databases
 pg_extensions: []
 #  - name: pg_stat_statements # required
+#    version: # defaults to 'latest'
 #    db: postgres # required
-#    state: present # defaults to present
+#    schema: # defaults to not set
+#    cascade: # defaults to 'no'
+#    login_host: # defaults to 'localhost'
+#    login_password: # defaults to not set
+#    login_user: # defaults to '{{ pg_user }}'
+#    login_unix_socket: # defaults to 1st of '{{ pg_unix_socket_directories }}'
+#    port: # defaults to not set
+#    state: present # defaults to 'present'
+
+# Add existing roles of db cluster to .pgpass file; password taken from pg_shadow
+pg_pass_roles: []
+#  - name: replicator
+#    hostname: "*"
+#    port: "{{ pg_port }}"
+#    database: replication
+```
+
+Some additional variables for EDB's Postgres Advanced Server (WIP).
+
+```yml
+---
+# EnterpriseDB Yum repository url
+pg_repo_url: "http://yum.enterprisedb.com/edbrepos/edb-repo-latest.noarch.rpm"
+pg_enablerepo: "edb"
+# edb_yum_username: ""
+# edb_yum_password: ""
+
+# Packages to install for PostgreSQL
+pg_packages:
+  - edb-as{{ pg_major_version }}-server
+  - edb-as{{ pg_major_version }}-server-core
+  - edb-as{{ pg_major_version }}-server-edb-modules
+  - edb-as{{ pg_major_version }}-server-contrib
+  - edb-as{{ pg_major_version }}-server-libs
+  - edb-as{{ pg_major_version }}-server-client
+  - edb-as{{ pg_major_version }}-server-llvmjit
+  - edb-as{{ pg_major_version }}-server-sslutils
+  - edb-as{{ pg_major_version }}-server-indexadvisor
+  - edb-as{{ pg_major_version }}-server-sqlprofiler
+  - edb-as{{ pg_major_version }}-server-sqlprotect
+
+# EnterpriseDB OS user and group
+pg_user: enterprisedb
+pg_group: enterprisedb
+
+# EnterpriseDB database cluster superuser
+pg_superuser: enterprisedb
+
+# Home directory of postgres user
+pg_user_home: "/var/lib/edb"
+pg_data_dir: "/var/lib/edb/as{{ pg_major_version }}/data"
+pg_bin_path: "/usr/edb/as{{ pg_major_version }}/bin"
+
+# PostgreSQL port
+pg_port: 5444
+
+# PostgreSQL service
+pg_service: edb-as-{{ pg_major_version }}
+
+# PostgreSQL environment variables
+pg_env_vars:
+  - "PATH=/usr/edb/as{{ pg_major_version }}/bin:$PATH"
+  - "LD_LIBRARY_PATH=/usr/edb/as{{ pg_major_version }}/lib:$LD_LIBRARY_PATH"
+  - "PGLOCALEDIR=/usr/edb/as{{ pg_major_version }}/share/locale"
+  - "PGDATA={{ pg_data_dir }}"
+
+# Directory for UNIX sockets
+pg_unix_socket_directories:
+  - /var/run/postgresql
 ```
 
 ## Dependencies

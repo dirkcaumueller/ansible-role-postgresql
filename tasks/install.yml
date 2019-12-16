@@ -47,6 +47,7 @@
 - name: Set postgres user's OS password
   user:
     name: "{{ pg_user }}"
+    port: "{{ pg_port }}"
     password: "{{ pg_user_password | password_hash('sha512') }}"
     update_password: always
     state: present
