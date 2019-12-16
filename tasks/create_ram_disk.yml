@@ -1,7 +1,8 @@
 ---
-- name: Stop PostgreSQL service
-  command: /bin/true
-  notify: stop postgresql
+- name: stop postgresql
+  service:
+    name: "{{ pg_service }}"
+    state: stopped
 
 - name: Create RAM-disk for pg_stat_tmp
   mount:

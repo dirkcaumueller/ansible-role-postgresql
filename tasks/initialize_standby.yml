@@ -1,7 +1,8 @@
 ---
-- name: Stop PostgreSQL service
-  command: /bin/true
-  notify: stop postgresql
+- name: stop postgresql
+  service:
+    name: "{{ pg_service }}"
+    state: stopped
 
 - name: Remove old PostgreSQL cluster directory
   file:
@@ -33,7 +34,4 @@
     recurse: true
     owner: "{{ pg_user }}"
     group: "{{ pg_group }}"
-
-- name: Start PostgreSQL service
-  command: /bin/true
   notify: start enable postgresql
