@@ -43,6 +43,7 @@ pg_env_vars:
   - "LD_LIBRARY_PATH=/usr/edb/as{{ pg_major_version }}/lib:$LD_LIBRARY_PATH"
   - "PGLOCALEDIR=/usr/edb/as{{ pg_major_version }}/share/locale"
   - "PGDATA={{ pg_data_dir }}"
+  - "PGDATABASE=edb"
 
 # Directory for UNIX sockets
 pg_unix_socket_directories:
