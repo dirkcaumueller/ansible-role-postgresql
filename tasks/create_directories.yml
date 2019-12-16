@@ -24,12 +24,3 @@
     mode: 0744
     state: directory
   when: pg_wal_archive_dir | length > 0
-
-- name: Ensure PostgreSQL unix socket directories exist
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ pg_user }}"
-    group: "{{ pg_group }}"
-    mode: 02775
-  with_items: "{{ pg_unix_socket_directories }}"

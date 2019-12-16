@@ -69,10 +69,6 @@ pg_env_vars:
   - "PGLOCALEDIR=/usr/pgsql-{{ pg_major_version }}/share/locale"
   - "PGDATA={{ pg_data_dir }}"
 
-# Directory for UNIX sockets
-pg_unix_socket_directories:
-  - /var/run/postgresql
-
 # Configure parameters for cluster initialization
 pg_initdb_params: "--encoding=UTF8 --locale=en_US.UTF-8 --lc-collate=C --lc-ctype=C --data-checksums"
 
