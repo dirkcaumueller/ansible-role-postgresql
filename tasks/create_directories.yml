@@ -7,6 +7,14 @@
     mode: 0700
     state: directory
 
+- name: Create Unix socket domain directory
+  file:
+    path: "{{ pg_unix_socket_directory | default('/tmp') }}"
+    owner: "{{ pg_user }}"
+    group: "{{ pg_group }}"
+    mode: 0744
+    state: directory
+
 - name: Create log directory
   file:
     path: "{{ pg_log_dir }}"
