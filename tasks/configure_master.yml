@@ -19,6 +19,9 @@
 
 - name: Set postgres superuser's database cluster password
   postgresql_query:
+    login_host: localhost
+    port: "{{ pg_port }}"
+    db: postgres
     query: "ALTER ROLE {{ pg_superuser }} WITH PASSWORD '{{ pg_superuser_password }}';"
   become: true
   become_user: "{{ pg_user }}"
