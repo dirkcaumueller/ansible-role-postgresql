@@ -22,6 +22,7 @@
     login_unix_socket: "/tmp"
     port: "{{ pg_port }}"
     db: "postgres"
+    login_user: "{{ pg_superuser }}"
     query: "ALTER ROLE {{ pg_superuser }} WITH PASSWORD '{{ pg_superuser_password }}';"
   become: true
   become_user: "{{ pg_user }}"
