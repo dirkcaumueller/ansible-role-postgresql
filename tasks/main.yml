@@ -28,6 +28,12 @@
 - name: Create standby cluster
   block:
     - import_tasks: initialize_standby.yml
+
+    - name: Ensure PostgreSQL is started and enabled on boot
+      service:
+        name: "{{ pg_service }}"
+        state: "{{ pg_service_state }}"
+        enabled: "{{ pg_service_enabled }}"
   when: pg_cluster_type == "standby"
 
 - import_tasks: create_ram_disk.yml
