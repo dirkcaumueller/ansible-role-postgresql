@@ -118,7 +118,7 @@ pg_users: []
 #
 # - name: replicator # Role for streaming replication
 #   password: replicator_password
-#   role_attr_flags: REPLICATION
+#   role_attr_flags: LOGIN,REPLICATION
 #   db: postgres
 #   login_user: "{{ pg_user }}""
 #   state: present
