@@ -7,28 +7,21 @@
     mode: 0700
     state: directory
 
-- name: Create Unix socket domain directory
+- name: Create Unix socket domain directories
   file:
-    path: "{{ pg_unix_socket_directory | default('/var/run/postgresql') }}"
+    path: "{{ item }}"
     owner: "{{ pg_user }}"
     group: "{{ pg_group }}"
-    mode: 0744
+    mode: 02775
     state: directory
+  with items: "{{ pg_unix_socket_directories }}"
 
-- name: Create log directory
+- name: Create custom directories
   file:
-    path: "{{ pg_log_dir }}"
+    path: "{{ item.path }}"
     owner: "{{ pg_user }}"
     group: "{{ pg_group }}"
-    mode: 0744
+    mode: "{{ item.mode }}"
     state: directory
-  when: pg_log_dir | length > 0
-
-- name: Create WAL archive directory
-  file:
-    path: "{{ pg_wal_archive_dir }}"
-    owner: "{{ pg_user }}"
-    group: "{{ pg_group }}"
-    mode: 0744
-    state: directory
-  when: pg_wal_archive_dir | length > 0
+  with items: "{{ pg_custom_dirs }}"
+  when: pg_custom_dirs | length > 0

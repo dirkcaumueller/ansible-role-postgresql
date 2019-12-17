@@ -19,7 +19,7 @@
 
 - name: Set postgres superuser's database cluster password
   postgresql_query:
-    login_unix_socket: "{{ pg_unix_socket_directory | default('/var/run/postgresql') }}"
+    login_unix_socket: "{{ postgresql_unix_socket_directories[0]) }}"
     port: "{{ pg_port }}"
     db: "postgres"
     login_user: "{{ pg_superuser }}"
@@ -31,7 +31,7 @@
 
 - name: Configure global settings in postgresql.auto.conf
   postgresql_set:
-    login_unix_socket: "{{ pg_unix_socket_directory | default('/var/run/postgresql') }}"
+    login_unix_socket: "{{ postgresql_unix_socket_directories[0]) }}"
     port: "{{ pg_port }}"
     db: "postgres"
     login_user: "{{ pg_superuser }}"

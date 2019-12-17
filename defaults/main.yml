@@ -40,9 +40,16 @@ pg_superuser_password: postgres
 pg_user_home: "/var/lib/pgsql"
 pg_data_dir: "/var/lib/pgsql/{{ pg_major_version }}/data"
 pg_bin_path: "/usr/pgsql-{{ pg_major_version }}/bin"
-pg_unix_socket_directory: "/tmp"
-pg_log_dir: ""
-pg_wal_archive_dir: ""
+
+# Unix socket domain directories
+pg_unix_socket_directories:
+  - "/var/run/postgresql"
+  - "/tmp"
+
+# Create optional directories
+pg_custom_dirs: []
+#  - {{ path: "/var/log/pgsql", mode: 0744 }} # Log directory
+#  - {{ path: "/var/lib/pgsql/{{ pg_major_version }}/wal_archive", mode: 0744 }} # WAL archive directory
 
 # Make ${PGDATA}/pg_stat_tmp a RAM-disk (false/true) with defined size
 pg_stat_tmp_on_ram_disk: false
@@ -70,7 +77,7 @@ pg_env_vars:
   - "PGDATA={{ pg_data_dir }}"
 
 # Configure parameters for cluster initialization
-pg_initdb_params: "--encoding=UTF8 --locale=en_US.UTF-8 --lc-collate=C --lc-ctype=C --data-checksums"
+pg_initdb_params: "--data-checksums --encoding=UTF8 --locale=en_US.UTF-8 --lc-collate=C --lc-ctype=C"
 
 # Host based authentication (hba) entries to be added to the pg_hba.conf; this
 # variable's defaults reflect the defaults that come with a fresh installation
@@ -83,8 +90,8 @@ pg_hba_entries:
   - {type: host, database: replication, user: all, address: '::1/128', auth_method: md5, state: present}
 
 # Global configuration options that will be set via ALTER SYSTEM in postgresql.auto.conf
-pg_postgresql_conf_params: []
-#  - {name: unix_socket_directories, value: "{{ pg_unix_socket_directory }}"}
+pg_postgresql_conf_params:
+  - {{ name: "unix_socket_directories", value: "{{ postgresql_unix_socket_directories | join(',') }}" }}
 #  - {name: , value: }
 
 # Add users to cluster
