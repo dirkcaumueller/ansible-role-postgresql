@@ -77,7 +77,7 @@ pg_env_vars:
   - "PGDATA={{ pg_data_dir }}"
 
 # Configure parameters for cluster initialization
-pg_initdb_params: "--data-checksums --encoding=UTF8 --locale=en_US.UTF-8 --lc-collate=C --lc-ctype=C"
+pg_initdb_params: "-k -E UTF8 --locale=en_US.UTF-8"
 
 # Host based authentication (hba) entries to be added to the pg_hba.conf; this
 # variable's defaults reflect the defaults that come with a fresh installation
