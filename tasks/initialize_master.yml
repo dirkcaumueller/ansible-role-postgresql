@@ -16,8 +16,8 @@
 - name: Configure Unix socket domain directories in postgresql.conf
   lineinfile:
     dest: "{{ pg_data_dir }}/postgresql.conf"
-    regexp: "^#?unix_socket_directory.+$"
-    line: "unix_socket_directory = '{{ postgresql_unix_socket_directories | join(',') }}'"
+    regexp: "^#?unix_socket_directories.+$"
+    line: "unix_socket_directories = '{{ pg_unix_socket_directories | join(',') }}'"
     state: present
 
 - name: Start enable postgresql
