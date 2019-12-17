@@ -9,7 +9,7 @@
 
 - name: Create Unix socket domain directories
   file:
-    path: "{{ item.item }}"
+    path: "{{ item }}"
     owner: "{{ pg_user }}"
     group: "{{ pg_group }}"
     mode: 02775
