@@ -91,7 +91,7 @@ pg_hba_entries:
 
 # Global configuration options that will be set via ALTER SYSTEM in postgresql.auto.conf
 pg_postgresql_conf_params:
-  - {name: "unix_socket_directories", value: "{{ postgresql_unix_socket_directories | join(',') }}"}
+  - {name: "unix_socket_directories", value: "{{ pg_unix_socket_directories | join(',') }}"}
 #  - {name: , value: }
 
 # Add users to cluster
