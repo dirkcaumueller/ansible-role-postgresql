@@ -21,10 +21,12 @@ pg_packages:
 
 # EnterpriseDB OS user and group
 pg_user: enterprisedb
+pg_user_password: edb
 pg_group: enterprisedb
 
 # EnterpriseDB database cluster superuser
 pg_superuser: enterprisedb
+pg_superuser_password: edb
 
 # Home directory of enterprisedb user
 pg_user_home: "/var/lib/edb"

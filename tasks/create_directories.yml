@@ -9,7 +9,7 @@
 
 - name: Create Unix socket domain directory
   file:
-    path: "{{ pg_unix_socket_directory | default('/tmp') }}"
+    path: "{{ pg_unix_socket_directory | default('/var/run/postgresql') }}"
     owner: "{{ pg_user }}"
     group: "{{ pg_group }}"
     mode: 0744

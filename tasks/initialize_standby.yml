@@ -1,5 +1,5 @@
 ---
-- name: stop postgresql
+- name: Stop postgresql
   service:
     name: "{{ pg_service }}"
     state: stopped
@@ -40,4 +40,9 @@
     recurse: true
     owner: "{{ pg_user }}"
     group: "{{ pg_group }}"
-  notify: start enable postgresql
+
+- name: Start enable postgresql
+  service:
+    name: "{{ pg_service }}"
+    state: started
+    enabled: "{{ pg_service_enabled }}"

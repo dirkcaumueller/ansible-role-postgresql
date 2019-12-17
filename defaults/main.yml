@@ -29,18 +29,18 @@ pg_python_libraries:
 
 # PostgreSQL OS user and group
 pg_user: postgres
-pg_user_password: ""
+pg_user_password: postgres
 pg_group: postgres
 
 # PostgreSQL database cluster superuser
 pg_superuser: postgres
-pg_superuser_password: ""
+pg_superuser_password: postgres
 
 # Required & optional directories
 pg_user_home: "/var/lib/pgsql"
 pg_data_dir: "/var/lib/pgsql/{{ pg_major_version }}/data"
 pg_bin_path: "/usr/pgsql-{{ pg_major_version }}/bin"
-pg_unix_socket_directory: "/var/run/postgresql"
+pg_unix_socket_directory: "/tmp"
 pg_log_dir: ""
 pg_wal_archive_dir: ""
 
@@ -83,8 +83,8 @@ pg_hba_entries:
   - {type: host, database: replication, user: all, address: '::1/128', auth_method: md5, state: present}
 
 # Global configuration options that will be set via ALTER SYSTEM in postgresql.auto.conf
-pg_postgresql_conf_params:
-  - {name: unix_socket_directories, value: "{{ pg_unix_socket_directory }}"}
+pg_postgresql_conf_params: []
+#  - {name: unix_socket_directories, value: "{{ pg_unix_socket_directory }}"}
 #  - {name: , value: }
 
 # Add users to cluster
