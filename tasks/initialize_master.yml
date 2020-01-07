@@ -2,6 +2,8 @@
 - name: Check if PostgreSQL cluster is initialized
   stat:
     path: "{{ pg_data_dir }}/PG_VERSION"
+  become: true
+  become_user: "{{ pg_user }}"
   register: pgdata_dir_version
 
 - name: Ensure PostgreSQL cluster is initialized
@@ -19,6 +21,8 @@
     regexp: "^#?unix_socket_directories.+$"
     line: "unix_socket_directories = '{{ pg_unix_socket_directories | join(',') }}'"
     state: present
+  become: true
+  become_user: "{{ pg_user }}"
 
 - name: Start enable postgresql
   service:
