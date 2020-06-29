@@ -46,7 +46,7 @@
 - name: Ensure PostgreSQL extensions are present
   postgresql_ext:
     name: "{{ item.name }}"
-    version: "{{ item.version | default('latest') }}"
+    version: "{{ item.version | default(omit) }}"
     db: "{{ item.db }}"
     schema: "{{ item.schema | default(omit) }}"
     cascade: "{{ item.cascade | default('no') }}"
