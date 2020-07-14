@@ -17,9 +17,13 @@ env:
   - SCENARIO=config
   - SCENARIO=ramdisk
 
+env:
+  - SCENARIO=default
+  - SCENARIO=config
+
 script:
   # Run tests
-  - molecule test
+  - molecule test -s ${SCENARIO}
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

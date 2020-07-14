@@ -13,7 +13,7 @@
     - name: Set custom variables for old CentOS 6 PostgreSQL install
       set_fact:
         pg_hba_entries: []
-        pg_postgresql_conf_params:
+        pg_postgresql_pre_conf_params:
           - name: unix_socket_directory
             value: '{{ pg_unix_socket_directories[0] }}'
       when:

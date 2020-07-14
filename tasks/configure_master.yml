@@ -26,6 +26,28 @@
   when: pg_superuser_password | length > 0
   changed_when: false
 
+- name: Pre-configure postgresql
+  postgresql_set:
+    login_unix_socket: "{{ pg_unix_socket_directories[0] }}"
+    port: "{{ pg_port }}"
+    db: "postgres"
+    login_user: "{{ pg_superuser }}"
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+  with_items: "{{ pg_postgresql_pre_conf_params }}"
+  register: __pg_pre_set
+  become: true
+  become_user: "{{ pg_user }}"
+
+- name: Check if restart is required after pre-configure
+  service:
+    name: "{{ pg_service }}"
+    state: restarted
+  when:
+    - (item.restart_required|bool)
+    - (item.value_pretty != item.prev_val_pretty)
+  loop: "{{ __pg_pre_set.results }}"
+
 - name: Configure global settings in postgresql.auto.conf
   postgresql_set:
     login_unix_socket: "{{ pg_unix_socket_directories[0] }}"
@@ -35,7 +57,16 @@
     name: "{{ item.name }}"
     value: "{{ item.value }}"
   with_items: "{{ pg_postgresql_conf_params }}"
+  register: __pg_set
   when: pg_postgresql_conf_params | length > 0
   become: true
   become_user: "{{ pg_user }}"
-  notify: restart postgresql
+
+- name: Check if restart is required after configure
+  service:
+    name: "{{ pg_service }}"
+    state: restarted
+  when:
+    - (item.restart_required|bool)
+    - (item.value_pretty != item.prev_val_pretty)
+  loop: "{{ __pg_set.results }}"
