@@ -10,17 +10,21 @@ env:
 
 install:
   # Install test dependencies
-  - pip install molecule docker
+  - pip install docker ansible-lint "molecule>=3,<4" testinfra
 
-before_script:
-  # Use actual Ansible Galaxy role name for the project directory
-  - cd ../
-  - mv ansible-role-$ROLE_NAME dirkcaumueller.$ROLE_NAME
-  - cd dirkcaumueller.$ROLE_NAME
+env:
+  - SCENARIO=default
+  - SCENARIO=config
+  - SCENARIO=ramdisk
+
+env:
+  - SCENARIO=default
+  - SCENARIO=config
+  - SCENARIO=ramdisk
 
 script:
   # Run tests
-  - molecule test
+  - molecule test -s ${SCENARIO}
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

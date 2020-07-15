@@ -89,10 +89,15 @@ pg_hba_entries:
   - {type: host, database: replication, user: all, address: '127.0.0.1/32', auth_method: md5, state: present}
   - {type: host, database: replication, user: all, address: '::1/128', auth_method: md5, state: present}
 
+# Global postgresql configuration, similar to pg_postgresql_conf_params, but these need to
+# be applied first, and then stick related into pg_postgresql_conf_params, for example, to
+# configure pg_stat_statements, load it here first and then set pg_stat_statements.track
+pg_postgresql_pre_conf_params:
+  - { name: "unix_socket_directories", value: "{{ pg_unix_socket_directories | join(',') }}" }
+
 # Global configuration options that will be set via ALTER SYSTEM in postgresql.auto.conf
-pg_postgresql_conf_params:
-  - {name: "unix_socket_directories", value: "{{ pg_unix_socket_directories | join(',') }}"}
-#  - {name: , value: }
+pg_postgresql_conf_params: []
+# - { name: "pg_stat_statements.track", value: "all" }
 
 # Add users to cluster
 pg_users: []

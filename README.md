@@ -228,6 +228,9 @@ None.
 
     - hosts: database
       become: yes
+      # See: https://github.com/ansible/ansible/issues/16048#issuecomment-229012509
+      vars:
+        ansible_ssh_pipelining: true
       vars_files:
         - vars/main.yml
       roles:

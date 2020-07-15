@@ -1,0 +1,23 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: ansible-role-postgresql
+      vars:
+        pg_databases:
+          - name: acme
+            owner: "{{ pg_superuser }}"
+        pg_extensions:
+          - name: pg_stat_statements
+            db: acme
+            login_host: 127.0.0.1
+            login_password: "{{ pg_superuser_password }}"
+            login_user: "{{ pg_superuser }}"
+            ssl_mode: false
+            state: present
+        pg_postgresql_pre_conf_params:
+          - { name: "unix_socket_directories", value: "{{ pg_unix_socket_directories | join(',') }}" }
+          - { name: shared_preload_libraries, value: pg_stat_statements }
+        pg_postgresql_conf_params:
+          - { name: "pg_stat_statements.track", value: all }
+          - { name: "pg_stat_statements.max", value: 10000 }

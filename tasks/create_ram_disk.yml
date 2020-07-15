@@ -1,16 +1,39 @@
 ---
+- name: Setup path for RAM disk
+  set_fact:
+    __pg_ram_disk_path: "{{ pg_data_dir }}/pg_stat_tmp"
+    __pg_ram_disk_opts: "size={{ pg_stat_tmp_ram_size }},uid={{ pg_user }},gid={{ pg_group }}"
+
+- name: RAM disk
+  set_fact:
+    __pg_ram_disk: "tmpfs {{ __pg_ram_disk_path }} tmpfs {{ __pg_ram_disk_opts }} 0 0"
+
+- name: Ram disk exists?
+  block:
+    - name: Check fstab
+      shell: "cat /etc/fstab | grep '{{ __pg_ram_disk }}' | wc -l"
+      register: __pg_ram_disk_out
+      changed_when: false
+      args:
+        warn: false
+
+    - name: Set fact
+      set_fact:
+        __pg_ram_disk_exists: "{{ __pg_ram_disk_out.stdout | bool }}"
+
 - name: stop postgresql
   service:
     name: "{{ pg_service }}"
     state: stopped
+  when: not __pg_ram_disk_exists
 
 - name: Create RAM-disk for pg_stat_tmp
   mount:
     backup: true
-    path: "{{ pg_data_dir }}/pg_stat_tmp"
+    path: "{{ __pg_ram_disk_path }}"
     src: tmpfs
     fstype: tmpfs
-    opts: "size={{ pg_stat_tmp_ram_size }},uid={{ pg_user }},gid={{ pg_group }}"
+    opts: "{{ __pg_ram_disk_opts }}"
     state: mounted
-  when: pg_stat_tmp_on_ram_disk|default(false)
-  notify: start postgresql
+  notify:
+    - start postgresql
