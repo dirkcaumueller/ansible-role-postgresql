@@ -41,6 +41,9 @@
     owner: "{{ pg_user }}"
     group: "{{ pg_group }}"
 
+- name: Setup override
+  include_tasks: service.yml
+
 - name: Start enable postgresql
   service:
     name: "{{ pg_service }}"

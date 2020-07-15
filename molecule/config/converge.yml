@@ -4,6 +4,7 @@
   roles:
     - role: ansible-role-postgresql
       vars:
+        pg_data_dir: /customer/pgdata
         pg_databases:
           - name: acme
             owner: "{{ pg_superuser }}"
