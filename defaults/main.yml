@@ -44,7 +44,7 @@ pg_bin_path: "/usr/pgsql-{{ pg_major_version }}/bin"
 # Unix socket domain directories
 pg_unix_socket_directories:
   - "/var/run/postgresql"
-  - "/tmp"
+  - "/tmp/postgresql"
 
 # Create optional directories
 pg_custom_dirs: []
